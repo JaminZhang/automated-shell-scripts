@@ -1,0 +1,24 @@
+#!/usr/bin/expect
+# Usage: dispatch-sshkey
+# Version: 1.2
+# Author: Jamin Zhang
+# Email: zhangjamin@163.com
+
+
+if { $argc != 2 } {   
+ send_user "usage: expect scp-expect.exp file host \n"   
+ exit   
+} 
+#define var
+set file [lindex $argv 0]
+set host [lindex $argv 1]
+#set dir  [lindex $argv 2]
+set password "123456!@#"
+#spawn scp -P22 -r -p $file root@$host:$dir
+spawn ssh-copy-id -i $file "-p 52113 disdata@$host"
+expect {
+        "yes/no"    {send "yes\r";exp_continue}
+        "*password" {send "$password\r"}
+}
+expect eof
+exit 
