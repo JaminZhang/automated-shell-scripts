@@ -19,3 +19,4 @@ cat /etc/rsync.password
 # Test
 echo "$CLIENT_FILE" >> /tmp/$CLIENT_FILE
 rsync -avzP /tmp/$CLIENT_FILE rsync_backup@$RSYNC_SERVER::www --password-file=/etc/rsync.password
+
