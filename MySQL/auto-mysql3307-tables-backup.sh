@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage: auto-mysql3307-tables-backup
+# Usage: auto-mysql3307-split-tables-backup
 # Version: 1.2
 # Author: Jamin Zhang
 # Email: zhangjamin@163.com
