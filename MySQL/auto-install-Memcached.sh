@@ -53,8 +53,8 @@ echo "-----Step 04: Startup memcached-----"
 echo "export PATH=$PATH:${MEMCACHED_INSTALL_DIR}/bin" >> /etc/profile
 source /etc/profile
 which memcached
-memcached -m 4096m -p 12111 -d -u root -P /var/run/memcached.pid -c 4096
-memcached -m 4096m -p 12112 -d -u root -P /var/run/memcached2.pid -c 4096
+memcached -m 4096m -p 12111 -d -u root -P /var/run/memcached.pid -c 8192
+memcached -m 4096m -p 12112 -d -u root -P /var/run/memcached2.pid -c 8192
 
 [ `ps -ef | grep memcached | grep -v grep | wc -l` -eq 2 ] && {
 action "memcached startup successful." /bin/true
