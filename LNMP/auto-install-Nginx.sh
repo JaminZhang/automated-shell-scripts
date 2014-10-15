@@ -1,6 +1,6 @@
 #!/bin/bash
 # Usage: auto-install-Nginx
-# Version: 1.2
+# Version: 1.3
 # Author: Jamin Zhang
 # Email: zhangjamin@163.com
 
