@@ -5,6 +5,7 @@
 # Email: zhangjamin@163.com
 
 SOFT_DIR="/home/jamin/soft"
+PCRE_VERSION="8.35"
 NGINX_VERSION="1.4.7"
 NGINX_INSTALL_DIR="/app/nginx-$NGINX_VERSION"
 NGINX_LN_DIR="/app/nginx"
@@ -12,12 +13,12 @@ NGINX_LN_DIR="/app/nginx"
 echo "-----Step 01: Install pcre-----"
 [ ! -d "$SOFT_DIR" ] && mkdir $SOFT_DIR
 cd $SOFT_DIR
-[ ! -f pcre-8.35.tar.gz ] && \
-wget http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz
-[ ! -f pcre-8.35.tar.gz ] && exit 1
+[ ! -f pcre-$PCRE_VERSION.tar.gz ] && \
+wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$PCRE_VERSION.tar.gz
+[ ! -f pcre-$PCRE_VERSION.tar.gz ] && exit 1
 
-tar xzf pcre-8.35.tar.gz
-cd pcre-8.35
+tar xzf pcre-$PCRE_VERSION.tar.gz
+cd pcre-$PCRE_VERSION
 ./configure
 make && make install
 
