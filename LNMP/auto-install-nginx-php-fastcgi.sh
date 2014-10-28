@@ -16,7 +16,7 @@ MYSQL_INSTALL_DIR="/app/mysql"
 
 
 echo "-----Step 01: Check nginx and mysql install-----"
-[ ! -d ${APACHE_INSTALL_DIR} ] && "Please check nginx." && exit 1
+[ ! -d ${NGINX_INSTALL_DIR} ] && "Please check nginx." && exit 1
 [ ! -d ${MYSQL_INSTALL_DIR} ] && "Please check mysql." && exit 1
 
 echo
