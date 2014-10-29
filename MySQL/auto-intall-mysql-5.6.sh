@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage: auto-install-mysql
+# Usage: auto install mysql
 # Version: 1.3
 # Author: Jamin Zhang
 # Email: zhangjamin@163.com
@@ -9,10 +9,12 @@
 MYSQL_SOFT_DIR="/root/soft"
 MYSQL_VERSION="5.6.21"
 MYSQL_INSTALL_DIR="/app/mysql-$MYSQL_VERSION"
+MYSQL_LN_DIR="/app/mysql"
 
 echo
-echo "-----Step 01: Add mysql user-----"
-useradd -s /sbin/nologin -M mysql
+echo "-----Step 01: Add mysql group and user-----"
+groupadd mysql
+useradd -s /sbin/nologin -M -g mysql mysql
 sleep 1
 
 echo "-----Step 02: Download mysql-----"
@@ -24,30 +26,29 @@ wget http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-${MYSQL_VERSION}.tar.gz
 # Or upload mysql source code to the system.
 
 echo
-echo "-----Step 03: Install mysql-----"
+echo "-----Step 03: Install cmake and mysql-----"
+yum install cmake -y
+
 cd ${MYSQL_SOFT_DIR} && \
 tar zxf mysql-${MYSQL_VERSION}.tar.gz
 cd mysql-${MYSQL_VERSION}
 
-./configure \
---prefix=${MYSQL_INSTALL_DIR} \
---with-unix-socket-path=${MYSQL_INSTALL_DIR}/tmp/mysql.sock \
---localstatedir=${MYSQL_INSTALL_DIR}/data \
---enable-assembler \
---enable-thread-safe-client \
---with-mysqld-user=mysql \
---with-big-tables \
---without-debug \
---with-pthread \
---with-extra-charsets=complex \
---with-readline \
---with-ssl \
---with-embedded-server \
---enable-local-infile \
---with-plugins=partition,innobase \
-#--with-plugin-PLUGIN \
---with-mysqld-ldflags=-all-static \
---with-client-ldflags=-all-static >> /tmp/install_mysql.log
+cmake \
+-DCMAKE_INSTALL_PREFIX=/app/mysql-${MYSQL_VERSION} \
+-DMYSQL_DATADIR=/app/mysql-${MYSQL_VERSION}/data \
+-DMYSQL_UNIX_ADDR=/app/mysql-${MYSQL_VERSION}/tmp/mysql.sock \
+-DMYSQL_USER=mysql \
+-DMYSQL_TCP_PORT=3306 \
+-DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_COLLATION=utf8_general_ci \
+-DWITH_MYISAM_STORAGE_ENGINE=1 \
+-DWITH_INNOBASE_STORAGE_ENGINE=1 \
+-DWITH_ARCHIVE_STORAGE_ENGINE=1 \
+-DWITH_BLACKHOLE_STORAGE_ENGINE=1 \
+-DWITH_MEMORY_STORAGE_ENGINE=1 \
+-DWITH_READLINE=1 \
+-DENABLED_LOCAL_INFILE=1  >> /tmp/install_mysql.log
+
 [ $? -ne 0 ] && action "mysql configure" /bin/false && exit 1
 
 make
@@ -56,4 +57,6 @@ make
 make install
 [ $? -ne 0 ] && action "mysql make install" /bin/false && exit 1
 
-action "mysql is installed successfully." /bin/true
+[ $? -eq 0 ] && action "mysql is installed successfully." /bin/true
+
+ln -s $MYSQL_INSTALL_DIR $MYSQL_LN_DIR
