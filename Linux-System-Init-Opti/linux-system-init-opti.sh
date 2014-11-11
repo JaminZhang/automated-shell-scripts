@@ -184,8 +184,9 @@ cat << EOF
 EOF
 
 yum -y install ntp >> /dev/null 2>&1
-ntpdate time.windows.com
-echo "*/5 * * * * /usr/sbin/ntpdate time.windows.com > /dev/null 2>&1" >> /var/spool/cron/root
+ntpdate cn.pool.ntp.org				
+echo -e "\n# Set system time sync" >> /var/spool/cron/root
+echo "*/10 * * * * ntpdate cn.pool.ntp.org >/dev/null 2>&1" >> /var/spool/cron/root
 
 echo "Set system time synchronization.------>OK."
 sleep 3
