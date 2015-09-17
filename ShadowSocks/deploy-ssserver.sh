@@ -1,13 +1,16 @@
 #!/bin/bash
 
-E_WRONG_PARAM=65
+E_WRONG_ARG=65
 E_EXISTED=66
 
 if [ $# -ne 2 ]
 then
 	echo "Usage: `basename $0` server_port password"
-	exit $E_WRONG_PARAM
+	exit $E_WRONG_ARG
 fi
+
+server_port=$1
+password=$2
 
 if [ -e /usr/bin/ssserver ]
 then
