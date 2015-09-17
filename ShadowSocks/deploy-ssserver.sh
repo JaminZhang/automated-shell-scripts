@@ -19,6 +19,7 @@ yum install python-pip -y
 
 pip install shadowsocks
 
+# Config shadowsocks config file
 cat > /etc/shadowsocks.json << EOF
 {
     "server":"0.0.0.0",
@@ -35,5 +36,13 @@ EOF
 
 /usr/bin/ssserver -c /etc/shadowsocks.json -d start
 
-echo "#Start ssserver" >> /etc/rc.local
-echo "/usr/bin/ssserver -c /etc/shadowsocks.json -d start" >> /etc/rc.local
+# Config ssserver at startup
+server=shadowsocks
+if grep -q $server /etc/rc.local
+then
+        echo "$server have configured in /etc/rc.local"
+else
+        echo "#Start ssserver" >> /etc/rc.local
+        echo "/usr/bin/ssserver -c /etc/shadowsocks.json -d start" >> /etc/rc.local
+        grep $server /etc/rc.local
+fi
