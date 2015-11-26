@@ -3,14 +3,14 @@
 E_WRONG_ARG=65
 E_EXISTED=66
 
-if [ $# -ne 2 ]
+if [ $# -ne 1 ]
 then
-	echo "Usage: `basename $0` server_port password"
+	echo "Usage: `basename $0` server_port"
 	exit $E_WRONG_ARG
 fi
 
 server_port=$1
-password=$2
+read -p "Please input the server password: " password
 
 if [ -e /usr/bin/ssserver ]
 then
