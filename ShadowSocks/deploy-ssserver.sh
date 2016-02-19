@@ -39,13 +39,17 @@ EOF
 
 /usr/bin/ssserver -c /etc/shadowsocks.json -d start
 
+echo
+
+netstat -lntp | grep $server_port
+
 # Config ssserver at startup
 server=shadowsocks
 if grep -q $server /etc/rc.local
 then
         echo "$server have configured in /etc/rc.local"
 else
-        echo "#Start ssserver" >> /etc/rc.local
+        echo "# Start ssserver" >> /etc/rc.local
         echo "/usr/bin/ssserver -c /etc/shadowsocks.json -d start" >> /etc/rc.local
         grep $server /etc/rc.local
 fi
