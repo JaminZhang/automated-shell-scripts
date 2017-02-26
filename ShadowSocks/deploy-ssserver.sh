@@ -18,6 +18,8 @@ then
 	exit $E_EXISTED
 fi
 
+
+yum install epel-release -y
 yum install python-pip -y
 
 pip install shadowsocks
