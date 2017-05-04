@@ -27,6 +27,7 @@ fi
 # Turn off the firewall
 systemctl status firewalld
 systemctl stop firewalld
+systemctl disable firewalld
 
 # Increase the maximum number of open file descriptors
 ulimit -HSn 65536
@@ -103,3 +104,6 @@ else
         echo "/usr/bin/ssserver -c /etc/shadowsocks.json -d start" >> /etc/rc.local
         grep $server /etc/rc.local
 fi
+
+chmod +x /etc/rc.d/rc.local
+
